@@ -1,0 +1,39 @@
+# Add outliers with different percentages to the exist data set manually
+# (Inspired by Briegel, T. & Tresp, V. (1999) Robust neural network regression for offline and online learning)
+
+set.seed(9999)
+
+c2=as.matrix(arr)
+original <- matrix(c2, nrow = length(c2), ncol = 4)
+colnames(original) <- c("data 1", "data 2", "data 3", "data4")
+
+# index
+idx_out1 <- sort(sample(1:length(c2), length(c2)*0.01, replace=F))  # n*0.01    
+idx_out2 <- sort(sample(1:length(c2), length(c2)*0.03, replace=F))  # n*0.03
+idx_out3 <- sort(sample(1:length(c2), length(c2)*0.05, replace=F))  # n*0.05
+idx_out4 <- sort(sample(1:length(c2), length(c2)*0.1, replace=F))  # n*0.1
+
+
+# values
+
+val_out1=runif(length(c2)*0.01, min = -5, max = 5)
+val_out2=runif(length(c2)*0.03, min = -5, max = 5)
+val_out3=runif(length(c2)*0.05, min = -5, max = 5)
+val_out4=runif(length(c2)*0.1, min = -5, max = 5)
+
+
+original[,1][idx_out1] <- original[,1][idx_out1]+val_out1
+original[,2][idx_out2] <- original[,2][idx_out2]+val_out2
+original[,3][idx_out3] <- original[,3][idx_out3]+val_out3
+original[,4][idx_out4] <- original[,4][idx_out4]+val_out4
+
+
+# loop for plots
+
+main_titles <- c("1% outliers", "3% outliers", "5% outliers", "10% outliers")
+par(mfrow = c(2, 2))  
+
+for (i in 1:4) {
+  plot(original[, i], main = main_titles[i], xlab = "Index", ylab = "Value", pch = 16, col = i, type = "l")
+}
+
